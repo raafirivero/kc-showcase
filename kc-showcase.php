@@ -15,8 +15,8 @@ License: GPLv2
 # credit: https://gist.github.com/davatron5000/848232
 
 # middle parts by me
+# on saving posts: https://toolset.com/forums/topic/imposible-to-hook-on-custom-post-type-save-or-update/
 # bottom parts found online somewhere else
-
 
 new VideoPostType;		// Initial call
 
@@ -45,9 +45,6 @@ class VideoPostType
 
 		# Add Post Type to Search 
 		add_filter('pre_get_posts', array(&$this, 'query_post_type'));
-
-		# Save entered data
-		# add_action('save_post', array(&$this, 'save_postdata'));
 		
 	}
 
@@ -85,7 +82,7 @@ class VideoPostType
 			'capability_type' => 'post',
 			'hierarchical' => false,
 			'has_archive' => true,
-			'menu_position' => 30,
+			'menu_position' => 5,
 			'menu_icon'     => 'dashicons-video-alt',
 			'show_in_rest' => true,
 			'taxonomies' => array(
@@ -130,21 +127,41 @@ function get_embed( $post_id, $post, $update ){
 		return $post_id;
 	}
  
+ 	$has_link = metadata_exists('post', $post->ID, 'videolink');
 	$has_embed = metadata_exists('post', $post->ID, 'oembed');
-	$has_link = metadata_exists('post', $post->ID, 'videolink');
-	
+	$has_thumb = metadata_exists('post', $post->ID, 'thumbnail');	
+
 		
-	if ($has_embed === false) {
+	if ($has_embed === false || $has_thumb === false) {
 		
 		if ($has_link) {
+			# Now we're cooking. Start fetching stuff.
+
+			require_once(ABSPATH.'wp-includes/class-wp-oembed.php');
+			$oembed= new WP_oEmbed;
+			
 			$link_value = get_post_meta($post->ID, 'videolink', true);
-			$embed_code = wp_oembed_get($link_value);
-			update_post_meta($post->ID, 'oembed', $embed_code);
+			$var = $oembed->get_data($link_value);
+			// error_log(print_r($var->{'html'}, true));
+			
+			$video = $var->html;
+			$thumb = $var->thumbnail_url; 
+			
+			if ($has_embed === false) {
+				update_post_meta($post->ID, 'oembed', $video);
+			}
+			
+			if ($has_thumb === false) {
+				update_post_meta($post->ID, 'thumbnail', $thumb);
+			}
+
 		}
-	}
+		
+	}	
 	
 }
 add_action( 'save_post', 'get_embed', 10, 3 );
+
 
 
 
@@ -201,6 +218,7 @@ function json_custom_fields($data, $post, $request)
 	$_data['upvotes'] = get_post_meta($post->ID, 'upvotes', true);
 	$_data['downvotes'] = get_post_meta($post->ID, 'downvotes', true);
 	$_data['oembed'] = get_post_meta($post->ID, 'oembed', true);
+	$_data['thumbnail'] = get_post_meta($post->ID, 'thumbnail', true);
 	$data->data = $_data;
 	return $data;
 }
@@ -250,6 +268,7 @@ register_meta($object_type, 'dp', $meta_args);
 register_meta($object_type, 'editor', $meta_args);
 register_meta($object_type, 'kinecamera', $meta_args);
 register_meta($object_type, 'oembed', $meta_args);
+register_meta($object_type, 'thumbnail', $meta_args);
 
 $vote_args = array(
 	// these ones use integer for the data-type
