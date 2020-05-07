@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: KineCommunity Video Showcase
-Plugin URI: 
+Plugin URI: https://github.com/raafirivero/kc-showcase
 Author: Raafi Rivero
 Author URI: http://raafirivero.com
 Description: Custom post type for video showcase on KineCommunity
