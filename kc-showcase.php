@@ -10,11 +10,11 @@ Textdomain: kinecommunity
 License: GPLv2
 */
 
-
 include "includes/kc-videopost.php";
 include "includes/kc-tax.php";
 include "includes/kc-save.php";
 include "includes/kc-json.php";
+include "includes/kc-showroute.php";
 
 # custom post part forked from Dave Rupert 
 # credit: https://gist.github.com/davatron5000/848232
