@@ -15,6 +15,7 @@ include "includes/kc-tax.php";
 include "includes/kc-save.php";
 include "includes/kc-json.php";
 include "includes/kc-showroute.php";
+include "includes/kc-usersub.php";
 
 # custom post part forked from Dave Rupert 
 # credit: https://gist.github.com/davatron5000/848232

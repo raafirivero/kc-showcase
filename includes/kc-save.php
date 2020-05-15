@@ -23,8 +23,7 @@ function get_embed( $post_id, $post, $update ){
 			
 			$link_value = get_post_meta($post->ID, 'videolink', true);
 			$var = $oembed->get_data($link_value);
-			//error_log(print_r($var->{'html'}, true));
-			error_log(print_r($var, true));
+			//error_log(print_r($var, true));
 			
 			$video = $var->html;
 			$thumb = $var->thumbnail_url; 
