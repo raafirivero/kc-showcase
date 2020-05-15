@@ -32,7 +32,7 @@ add_action( 'rest_api_init', 'kc_register_custom_routes' );
 /**
  * KC Showcase Endpoint
  *
- * Handle calls to the Wp Rest Api /meta end-point,
+ * Handle calls to the Wp Rest Api /showcase end-point,
  *
  * @uses get_post_meta() https://developer.wordpress.org/reference/functions/get_post_meta/
  * @uses WP_Error() https://developer.wordpress.org/reference/classes/wp_error/
