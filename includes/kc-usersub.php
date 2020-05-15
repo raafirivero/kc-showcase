@@ -11,10 +11,10 @@ add_action('cf7_2_post_form_submitted_to_video', 'new_video_mapped',10,3);
 */
 function new_video_mapped($post_id, $cf7_form_data, $cf7form_key){
   /** 
-  *  put the post in the Showcase category and publish it.
+  *  Put the post in the Showcase category and publish it.
+  *  It's important to update the post at the end because that
+  *  fetches the iframe from Vimeo/YouTube via oEmbed.
   */
-  $dir = plugins_url();
-  $dir = $dir.'/post-my-contact-form-7/cf7-2-post.php';
 
   $category_id = get_cat_ID('Showcase');
   wp_set_post_categories($post_id, $category_id);
@@ -23,8 +23,6 @@ function new_video_mapped($post_id, $cf7_form_data, $cf7form_key){
     'ID'           => $post_id
   );
 
-  // Update the post in the database
-  // important because this gets the iframe via oEmbed 
   wp_update_post( $my_post );
   // Processing $wp_error
 }
