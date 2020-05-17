@@ -9,6 +9,7 @@ function json_custom_fields($data, $post, $request)
 	$_data['editor'] = get_post_meta($post->ID, 'editor', true);
 	$_data['kinecamera'] = get_post_meta($post->ID, 'kinecamera', true);
 	$_data['upvotes'] = get_post_meta($post->ID, 'upvotes', true);
+	$_data['totalvotes'] = get_post_meta($post->ID, 'upvotes', true);
 	$_data['sponsored'] = get_post_meta($post->ID, 'sponsored', true);
 	$_data['sponsorname'] = get_post_meta($post->ID, 'sponsorname', true);
 	$_data['oembed'] = get_post_meta($post->ID, 'oembed', true);
@@ -69,7 +70,7 @@ $vote_args = array(
 	// these ones use integer for the data-type
 	'type'         => 'integer',
 	// Shown in the schema for the meta key.
-	'description'  => 'Upvotes or fire emojis.',
+	'description'  => 'Total- and Upvotes for fire emojis.',
 	// Return a single value of the type.
 	'single'       => true,
 	// Show in the WP REST API response. Default: false.
@@ -77,6 +78,7 @@ $vote_args = array(
 );
 
 register_meta($object_type, 'upvotes', $vote_args);
+register_meta($object_type, 'totalvotes', $vote_args);
 
 $spon_args = array(
 	//  'string', 'boolean', 'integer',

@@ -5,7 +5,7 @@ Plugin URI: https://github.com/raafirivero/kc-showcase
 Author: Raafi Rivero
 Author URI: http://raafirivero.com
 Description: Custom post type for video showcase on KineCommunity
-Version: 1.2
+Version: 1.3
 Textdomain: kinecommunity
 License: GPLv2
 */

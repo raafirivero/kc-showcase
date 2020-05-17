@@ -56,6 +56,8 @@ function kc_upvote_callback($request)
     if (!filter_var($newnum, FILTER_VALIDATE_INT) === false) {
         // update if we're gucci
         update_post_meta($postnum, 'upvotes', $newnum);
+        $totalvotes = get_post_meta($postnum, 'totalvotes');
+        error_log('total votes= ' . $totalvotes);
     } else {
         echo("Integer is not valid");
         $newnum = false;
