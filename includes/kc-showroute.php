@@ -13,7 +13,7 @@
 function kc_register_custom_routes()
 {                                  
     register_rest_route( 'kinecom', '/showcase/(?P<id>\d+)', array(
-        'methods'  => 'PUT',
+        'methods'  => 'GET, PUT',
         'callback' => 'kc_upvote_callback',
     ));
 }
@@ -56,8 +56,16 @@ function kc_upvote_callback($request)
     if (!filter_var($newnum, FILTER_VALIDATE_INT) === false) {
         // update if we're gucci
         update_post_meta($postnum, 'upvotes', $newnum);
+        
         $totalvotes = get_post_meta($postnum, 'totalvotes');
-        error_log('total votes= ' . $totalvotes);
+        //error_log(print_r($totalvotes, true));
+
+        if( isset( $totalvotes ) ) { 
+            $addone = $totalvotes[0] + 1;
+            update_post_meta($postnum, 'totalvotes', $addone);
+        } else {
+            update_post_meta($postnum, 'totalvotes', 1);
+        }
     } else {
         echo("Integer is not valid");
         $newnum = false;
